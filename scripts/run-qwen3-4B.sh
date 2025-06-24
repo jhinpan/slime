@@ -15,6 +15,8 @@ set -ex
 # will prevent ray from buffering stdout/stderr
 export PYTHONBUFFERED=16
 
+export WANDB_KEY=0db9fd073cc9e49c8bcec2b0a6929792ecb64e4e
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 source "${SCRIPT_DIR}/models/qwen3-4B.sh"
 
@@ -92,10 +94,10 @@ OPTIMIZER_ARGS=(
 )
 
 WANDB_ARGS=(
-   #--use-wandb
-   # --wandb-project slime-dev
-   # --wandb-group qwen3-4B-test
-   # --wandb-key ${WANDB_KEY}
+   --use-wandb
+   --wandb-project slime-dev-lambda
+   --wandb-group qwen3-4B-test
+   --wandb-key ${WANDB_KEY}
 )
 
 SGLANG_ARGS=(
