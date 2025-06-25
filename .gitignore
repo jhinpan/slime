@@ -178,4 +178,4 @@ outputs/
 tests/
 local/
 **/rollout_data/
-**/buffer_stats/
+**/buffer_stats/core.*

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Run the script and capture output
+# ./scripts/run_agent.sh 2>&1 | tee run_agent.log
+
 # for rerun the task
 pkill -9 sglang
 sleep 3
@@ -13,6 +16,8 @@ pkill -9 python
 set -ex
 
 export PYTHONBUFFERED=16
+
+export WANDB_KEY=0db9fd073cc9e49c8bcec2b0a6929792ecb64e4e
 
 export TP_SIZE=2
 export PP_SIZE=1
@@ -107,7 +112,10 @@ OPTIMIZER_ARGS=(
 )
 
 WANDB_ARGS=(
-   # --use-wandb \
+   --use-wandb
+   --wandb-project slime-dev-lambda-Agent
+   --wandb-group DeepSeek-R1-Distill-Qwen-7B-Agent-Example
+   --wandb-key ${WANDB_KEY}
 )
 
 # launch the master node of ray in container
