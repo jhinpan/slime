@@ -21,7 +21,6 @@ export PYTHONBUFFERED=16
 export WANDB_KEY=${WANDB_KEY:-"0db9fd073cc9e49c8bcec2b0a6929792ecb64e4e"}
 
 # Model parallelism configuration
-# Set TP_SIZE=1 to match the checkpoint configuration
 export TP_SIZE=2
 export PP_SIZE=1
 export CP_SIZE=1
@@ -62,13 +61,13 @@ MODEL_ARGS=(
 CKPT_ARGS=(
    --hf-checkpoint ${HF_MODEL_PATH}
    --ref-load ${MCORE_MODEL_PATH}
-   --save-interval 50  # Save more frequently for kernel training
+   --save-interval 20  # Save more frequently for kernel training
    --save ${MCORE_MODEL_PATH_SAVE}
 )
 
 ROLLOUT_ARGS=(
    --rollout-function-path slime.rollout.agent_rollout.generate_rollout
-   --rm-type deepscaler
+   --rm-type kernelbench
    --prompt-data ${PROMPT_DATA}
    --label-key label
    --num-rollout 1000  # Reduced for kernel tasks
