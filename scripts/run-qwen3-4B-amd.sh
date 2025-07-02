@@ -19,19 +19,22 @@ set -euxo pipefail
 
 
 ### AMD Support ###
-SLIME_DIR="/home/yushensu/projects/slime" # Need to change to your own path
-export SLIME_DIR=$SLIME_DIR
+# SLIME_DIR="/home/yushensu/projects/slime" # Need to change to your own path
+# export SLIME_DIR=$SLIME_DIR
 
-MODEL_DIR="/home/yushensu/projects/model" # Need to change to your own path
-export MODEL_DIR=$MODEL_DIR
+# MODEL_DIR="/home/yushensu/projects/model" # Need to change to your own path
+# export MODEL_DIR=$MODEL_DIR
 
-DATA_DIR="/home/yushensu/projects/data"  # Need to change to your own path
-export DATA_DIR=$DATA_DIR
+# DATA_DIR="/home/yushensu/projects/data"  # Need to change to your own path
+# export DATA_DIR=$DATA_DIR
 
 # For AMD GPU
 export RAY_EXPERIMENTAL_NOSET_HIP_VISIBLE_DEVICES=${RAY_EXPERIMENTAL_NOSET_HIP_VISIBLE_DEVICES:-"1"} # Must set to 1
 export HIP_VISIBLE_DEVICES=${HIP_VISIBLE_DEVICES:-"0,1,2,3,4,5,6,7"} #You can choose which gpus to use
 ####################
+
+# For wandb api
+export WANDB_KEY=0db9fd073cc9e49c8bcec2b0a6929792ecb64e4e
 
 
 # ### AMD Support ### (If you do not istall, please install them)
@@ -62,16 +65,16 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 source "${SCRIPT_DIR}/models/qwen3-4B.sh"
 
 CKPT_ARGS=(
-   --hf-checkpoint ${MODEL_DIR}/Qwen3-4B
+   --hf-checkpoint /workspace/Qwen3-4B
    #--hf-checkpoint /root/Qwen3-4B-FP8
-   --ref-load ${MODEL_DIR}/Qwen3-4B_torch
-   --load ${MODEL_DIR}/Qwen3-4B_slime/
-   --save ${MODEL_DIR}/Qwen3-4B_slime/
-   --save-interval 20
+   --ref-load /workspace/Qwen3-4B_torch_dist
+   --load /workspace/Qwen3-4B_slime/
+   --save /workspace/Qwen3-4B_slime/
+   # --save-interval 20
 )
 
 ROLLOUT_ARGS=(
-   --prompt-data ${DATA_DIR}/dapo-math-17k/dapo-math-17k.jsonl
+   --prompt-data /workspace/dapo-math-17k/dapo-math-17k.jsonl
    --input-key prompt
    --label-key label
    --apply-chat-template
@@ -91,7 +94,7 @@ ROLLOUT_ARGS=(
 
 EVAL_ARGS=(
    --eval-interval 20
-   --eval-prompt-data aime ${DATA_DIR}/aime-2024/aime-2024.jsonl
+   --eval-prompt-data aime /workspace/aime-2024/aime-2024.jsonl
    --n-samples-per-eval-prompt 16
    --eval-max-response-len 16384
    --eval-top-p 0.7
@@ -135,10 +138,10 @@ OPTIMIZER_ARGS=(
 )
 
 WANDB_ARGS=(
-   #--use-wandb
-   # --wandb-project slime-dev
-   # --wandb-group qwen3-4B-test
-   # --wandb-key ${WANDB_KEY}
+   --use-wandb
+   --wandb-project slime-dev-amd
+   --wandb-group qwen3-4B-test
+   --wandb-key ${WANDB_KEY}
 )
 
 ### AMD Support ###
