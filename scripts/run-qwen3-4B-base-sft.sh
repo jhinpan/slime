@@ -15,6 +15,8 @@ set -ex
 # will prevent ray from buffering stdout/stderr
 export PYTHONBUFFERED=16
 
+export WANDB_API_KEY=0db9fd073cc9e49c8bcec2b0a6929792ecb64e4e
+
 NVLINK_COUNT=$(nvidia-smi | grep -o "NVLink" | wc -l)
 if [ "$NVLINK_COUNT" -gt 0 ]; then
     HAS_NVLINK=1
@@ -27,10 +29,10 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 source "${SCRIPT_DIR}/models/qwen3-4B.sh"
 
 CKPT_ARGS=(
-   --hf-checkpoint /root/Qwen3-4B-Base/
-   --ref-load /root/Qwen3-4B-Base_torch_dist
-   --load /root/Qwen3-4B-Base_slime/
-   --save /root/Qwen3-4B-Base_slime/
+   --hf-checkpoint /root/Qwen3-4B/
+   --ref-load /root/Qwen3-4B_torch_dist
+   --load /root/Qwen3-4B_slime/
+   --save /root/Qwen3-4B_slime/
    --save-interval 1000
 )
 
@@ -79,10 +81,10 @@ OPTIMIZER_ARGS=(
 )
 
 WANDB_ARGS=(
-   # --use-wandb
-   # --wandb-project slime-dev
-   # --wandb-group qwen3-4B-base-sft
-   # --wandb-key ${WANDB_KEY}
+   --use-wandb
+   --wandb-project slime-test
+   --wandb-group qwen3-4B-base-sft
+   --wandb-key ${WANDB_API_KEY}
 )
 
 MISC_ARGS=(
