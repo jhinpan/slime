@@ -29,10 +29,10 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 source "${SCRIPT_DIR}/models/qwen3-4B.sh"
 
 CKPT_ARGS=(
-   --hf-checkpoint /root/Qwen3-4B/
-   --ref-load /root/Qwen3-4B_torch_dist
-   --load /root/Qwen3-4B_slime/
-   --save /root/Qwen3-4B_slime/
+   --hf-checkpoint /root/Qwen3-4B-Base/
+   --ref-load /root/Qwen3-4B-Base_torch_dist
+   --load /root/Qwen3-4B-Base_slime/
+   --save /root/Qwen3-4B-Base_slime/
    --save-interval 1000
 )
 
